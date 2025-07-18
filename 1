@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MBTI 探索之旅</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <div class="container">
+        <div id="start-screen" class="card active">
+            <h1>MBTI 探索之旅</h1>
+            <p class="subtitle">发现真实的自己，开启无限可能。</p>
+            
+            <p class="intro-text">
+                本测试将通过一系列问题，帮助你了解自己的性格倾向。请跟随内心的第一感觉，选择最符合你的选项。这并非一场考试，没有对错之分，请轻松作答。
+            </p>
+            <button id="start-btn">开启测试</button>
+        </div>
+
+        <div id="quiz-screen" class="card">
+            <div id="question-container">
+                <p id="progress-bar"></p>
+                <h2 id="question-text"></h2>
+                <button class="answer-btn" data-choice="a"></button>
+                <button class="answer-btn" data-choice="b"></button>
+            </div>
+        </div>
+
+        <div id="result-screen" class="card">
+            <p>你的测试结果是...</p>
+            <h1 id="personality-type"></h1>
+            <h3 id="personality-title"></h3>
+            
+            <div id="result-details">
+                </div>
+            <button id="restart-btn">重新测试</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
