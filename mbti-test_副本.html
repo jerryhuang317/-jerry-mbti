@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MBTI 性格测试</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 600px;
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        .question {
+            margin: 20px 0;
+        }
+        .question p {
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+        .option {
+            display: block;
+            padding: 10px;
+            margin: 5px 0;
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .option:hover {
+            background-color: #e0e0e0;
+        }
+        button {
+            display: block;
+            margin: 20px auto;
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        #result {
+            display: none;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>MBTI 性格测试</h1>
+        <div id="quiz">
+            <div class="question" data-dimension="EI">
+                <p>1. 在社交场合，你更倾向于：</p>
+                <label class="option"><input type="radio" name="q1" value="E"> 与很多人交流，享受热闹的氛围</label>
+                <label class="option"><input type="radio" name="q1" value="I"> 与少数人深入交谈，喜欢安静</label>
+            </div>
+            <div class="question" data-dimension="SN">
+                <p>2. 面对问题时，你更关注：</p>
+                <label class="option"><input type="radio" name="q2" value="S"> 现实中的细节和事实</label>
+                <label class="option"><input type="radio" name="q2" value="N"> 未来的可能性和创意</label>
+            </div>
+            <div class="question" data-dimension="TF">
+                <p>3. 做决定时，你更依赖：</p>
+                <label class="option"><input type="radio" name="q3" value="T"> 逻辑分析和客观事实</label>
+                <label class="option"><input type="radio" name="q3" value="F"> 个人价值观和情感</label>
+            </div>
+            <div class="question" data-dimension="JP">
+                <p>4. 你的生活方式更偏向：</p>
+                <label class="option"><input type="radio" name="q4" value="J"> 有计划、有组织</label>
+                <label class="option"><input type="radio" name="q4" value="P"> 灵活、随性</label>
+            </div>
+            <button onclick="submitQuiz()">提交</button>
+        </div>
+        <div id="result">
+            <h2>你的MBTI类型是：<span id="resultType"></span></h2>
+            <p id="resultDesc"></p>
+            <button onclick="restartQuiz()">重新测试</button>
+        </div>
+    </div>
+
+    <script>
+        const mbtiDescriptions = {
+            "ISTJ": "认真负责，注重细节，喜欢有条理的生活。",
+            "ISFJ": "温暖体贴，乐于助人，重视传统。",
+            "INFJ": "富有洞察力，理想主义，追求意义。",
+            "INTJ": "战略思维，独立，追求长期目标。",
+            "ISTP": "冷静分析，喜欢探索和实践。",
+            "ISFP": "温柔敏感，热爱艺术和自然。",
+            "INFP": "理想主义，重视内在价值观。",
+            "INTP": "逻辑思维，喜欢探索抽象概念。",
+            "ESTP": "充满活力，擅长应对突发情况。",
+            "ESFP": "热情开朗，享受当下乐趣。",
+            "ENFP": "富有创意，热情，喜欢尝试新事物。",
+            "ENTP": "机智灵活，善于辩论和创新。",
+            "ESTJ": "务实高效，擅长组织和管理。",
+            "ESFJ": "友好热情，重视人际关系。",
+            "ENFJ": "富有魅力，擅长激励他人。",
+            "ENTJ": "果断自信，擅长领导和规划。"
+        };
+
+        function submitQuiz() {
+            const dimensions = {
+                EI: { E: 0, I: 0 },
+                SN: { S: 0, N: 0 },
+                TF: { T: 0, F: 0 },
+                JP: { J: 0, P: 0 }
+            };
+
+            const questions = document.querySelectorAll('.question');
+            let allAnswered = true;
+
+            questions.forEach(question => {
+                const selected = question.querySelector('input:checked');
+                if (!selected) {
+                    allAnswered = false;
+                    return;
+                }
+                const dimension = question.getAttribute('data-dimension');
+                const value = selected.value;
+                dimensions[dimension][value]++;
+            });
+
+            if (!allAnswered) {
+                alert('请回答所有问题！');
+                return;
+            }
+
+            let result = '';
+            result += dimensions.EI.E > dimensions.EI.I ? 'E' : 'I';
+            result += dimensions.SN.S > dimensions.SN.N ? 'S' : 'N';
+            result += dimensions.TF.T > dimensions.TF.F ? 'T' : 'F';
+            result += dimensions.JP.J > dimensions.JP.P ? 'J' : 'P';
+
+            document.getElementById('resultType').textContent = result;
+            document.getElementById('resultDesc').textContent = mbtiDescriptions[result] || '未知类型';
+            document.getElementById('quiz').style.display = 'none';
+            document.getElementById('result').style.display = 'block';
+        }
+
+        function restartQuiz() {
+            document.getElementById('quiz').style.display = 'block';
+            document.getElementById('result').style.display = 'none';
+            document.querySelectorAll('input[type="radio"]').forEach(input => input.checked = false);
+        }
+    </script>
+</body>
+</html>
